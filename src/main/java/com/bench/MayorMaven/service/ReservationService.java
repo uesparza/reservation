@@ -22,36 +22,27 @@ public class ReservationService {
 
     public int findLargestGapInHours() {
 
-            List<Reservation> reservations = iReservationRepo.findAll();
+        List<Reservation> reservations = iReservationRepo.findAll();
+        reservations.sort((r1, r2) -> r1.getInitTime().compareTo(r2.getInitTime()));
 
-            // Ordenar las reservas por la fecha inicial
-            reservations.sort((r1, r2) -> r1.getInitTime().compareTo(r2.getInitTime()));
-
-            int largestGapInHours = 0;
-
-            for (int i = 0; i < reservations.size() - 1; i++) {
-                LocalDateTime endCurrent = reservations.get(i).getEndTime();
-                LocalDateTime startNext = reservations.get(i + 1).getInitTime();
-
-                Duration duration = Duration.between(endCurrent,startNext);
-
-                if (duration.isNegative()) {
-                    continue;
-                }
-
-
-                int gapInHours = (int) duration.toHours();
-
-                if (gapInHours > largestGapInHours) {
-                    largestGapInHours = gapInHours;
-                }
+        int largestGapInHours = 0;
+        for (int i = 0; i < reservations.size() - 1; i++) {
+            LocalDateTime endCurrent = reservations.get(i).getEndTime();
+            LocalDateTime startNext = reservations.get(i + 1).getInitTime();
+            Duration duration = Duration.between(endCurrent, startNext);
+            if (duration.isNegative()) {
+                continue;
             }
-
-            return largestGapInHours;
-
-
-
+            int gapInHours = (int) duration.toHours();
+            if (gapInHours > largestGapInHours) {
+                largestGapInHours = gapInHours;
+            }
+        }
+        return largestGapInHours;
     }
 
+    public void delete(Reservation reservation) {
+        iReservationRepo.delete(reservation);
+    }
 
 }

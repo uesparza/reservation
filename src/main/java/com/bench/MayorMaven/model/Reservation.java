@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Entity(name = "reservation")
 public class Reservation {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private String reservation;
     private LocalDateTime initTime;

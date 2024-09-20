@@ -1,10 +1,8 @@
 package com.bench.MayorMaven.controller;
 
 import com.bench.MayorMaven.model.Reservation;
-import com.bench.MayorMaven.repo.IReservationRepo;
 import com.bench.MayorMaven.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,8 +19,15 @@ public class MayorReservation {
 
     @PostMapping("/save")
     public String save(@RequestBody Reservation reservation) {
+        System.out.println(reservation.toString());
         ReservationService.save(reservation);
         return "saved";
+    }
+
+    @DeleteMapping("/delete")
+    public String delete(@RequestBody Reservation reservation) {
+        ReservationService.delete(reservation);
+        return "deleted";
     }
 
 
