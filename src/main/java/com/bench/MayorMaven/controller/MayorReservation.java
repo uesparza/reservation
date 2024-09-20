@@ -2,23 +2,27 @@ package com.bench.MayorMaven.controller;
 
 import com.bench.MayorMaven.model.Reservation;
 import com.bench.MayorMaven.repo.IReservationRepo;
+import com.bench.MayorMaven.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
+@RequestMapping("Reservations")
 public class MayorReservation {
 
     @Autowired
-    private IReservationRepo iReservationRepo;
+    private ReservationService ReservationService;
 
-    @GetMapping("/greeting")
-    public String greeting() {
+    @GetMapping("/mayor")
+    public Integer greeting() {
+        return ReservationService.findLargestGapInHours();
+    }
 
-        Reservation reservation = new Reservation();
-
-        iReservationRepo.save(reservation);
-        return "hola mundo";
+    @PostMapping("/save")
+    public String save(@RequestBody Reservation reservation) {
+        ReservationService.save(reservation);
+        return "saved";
     }
 
 
