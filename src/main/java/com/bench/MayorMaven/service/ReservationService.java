@@ -34,9 +34,7 @@ public class ReservationService {
                 continue;
             }
             int gapInHours = (int) duration.toHours();
-            if (gapInHours > largestGapInHours) {
-                largestGapInHours = gapInHours;
-            }
+            largestGapInHours = gapInHours;
         }
         return largestGapInHours;
     }
