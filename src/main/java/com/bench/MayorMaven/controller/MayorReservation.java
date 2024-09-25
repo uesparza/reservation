@@ -13,13 +13,17 @@ public class MayorReservation {
     private ReservationService ReservationService;
 
     @GetMapping("/mayor")
-    public Integer greeting() {
+    public Integer mayor() {
         return ReservationService.findLargestGapInHours();
+    }
+
+    @GetMapping("/mayorDates")
+    public String mayorDa() {
+        return ReservationService.findLargestGapInString();
     }
 
     @PostMapping("/save")
     public String save(@RequestBody Reservation reservation) {
-        System.out.println(reservation.toString());
         ReservationService.save(reservation);
         return "saved";
     }

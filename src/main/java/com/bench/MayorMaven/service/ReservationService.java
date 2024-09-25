@@ -34,9 +34,33 @@ public class ReservationService {
                 continue;
             }
             int gapInHours = (int) duration.toHours();
-            largestGapInHours = gapInHours;
+            if (gapInHours > largestGapInHours)
+                largestGapInHours = gapInHours;
         }
         return largestGapInHours;
+    }
+
+    public String findLargestGapInString() {
+
+        List<Reservation> reservations = iReservationRepo.findAll();
+        reservations.sort((r1, r2) -> r1.getInitTime().compareTo(r2.getInitTime()));
+
+        int largestGapInHours = 0;
+        String str = "";
+        for (int i = 0; i < reservations.size() - 1; i++) {
+            LocalDateTime endCurrent = reservations.get(i).getEndTime();
+            LocalDateTime startNext = reservations.get(i + 1).getInitTime();
+            Duration duration = Duration.between(endCurrent, startNext);
+            if (duration.isNegative()) {
+                continue;
+            }
+            int gapInHours = (int) duration.toHours();
+            if (gapInHours > largestGapInHours) {
+                largestGapInHours = gapInHours;
+                str = "{current:"+endCurrent+",next:"+startNext+"}";
+            }
+        }
+        return str;
     }
 
     public void delete(Reservation reservation) {
